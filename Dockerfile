@@ -1,11 +1,11 @@
 FROM alpine:latest
 
-ENV HUGO_VERSION 0.56.3
+ENV HUGO_VERSION 0.27
 
 LABEL "com.github.actions.name"="Hugo Build"
-LABEL "com.github.actions.description"="Hugo as an action. Includes all legacy versions."
-LABEL "com.github.actions.icon"="check-square"
-LABEL "com.github.actions.color"="yellow"
+LABEL "com.github.actions.description"="Hugo as an action. Includes legacy versions."
+LABEL "com.github.actions.icon"="edit"
+LABEL "com.github.actions.color"="gray-dark"
 
 LABEL version=${HUGO_VERSION}
 LABEL repository="https://github.com/jakejarvis/hugo-build-action"
