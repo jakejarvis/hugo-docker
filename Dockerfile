@@ -7,7 +7,7 @@ LABEL "com.github.actions.description"="Hugo as an action. Includes legacy versi
 LABEL "com.github.actions.icon"="edit"
 LABEL "com.github.actions.color"="gray-dark"
 
-LABEL version=${HUGO_VERSION}
+LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-build-action"
 LABEL homepage="https://jarv.is/"
 LABEL maintainer="Jake Jarvis <jake@jarv.is>"
@@ -21,7 +21,6 @@ RUN apk update && \
     tar xf hugo_${HUGO_VERSION}_Linux-64bit.tar.gz && \
     mv ./hugo /usr/bin && \
     chmod +x /usr/bin/hugo && \
-    rm -rf hugo_${HUGO_VERSION}_Linux-64bit
+    rm -rf hugo_${HUGO_VERSION}_*
 
 ENTRYPOINT ["hugo"]
-#CMD ["--help"]
