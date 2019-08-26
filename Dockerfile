@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV HUGO_VERSION 0.27.1
+ENV HUGO_VERSION 0.28
 
 LABEL "com.github.actions.name"="Hugo Build"
 LABEL "com.github.actions.description"="Hugo as an action. Includes legacy versions."
