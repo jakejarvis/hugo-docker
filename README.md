@@ -14,7 +14,7 @@ Replace the `master` in `uses: jakejarvis/hugo-build-action@master` to specify t
 
 The `with: args:` portion holds any [optional flags](https://gohugo.io/commands/hugo/). You can remove those two lines for a vanilla build.
 
-```
+```yaml
 jobs:
   build:
     runs-on: ubuntu-latest
