@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV HUGO_VERSION 0.63.1
+ENV HUGO_VERSION 0.63.2
 # remove/comment the following line completely to build with vanilla Hugo:
 ENV HUGO_EXTENDED 1
 
