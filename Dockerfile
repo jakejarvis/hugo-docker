@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV HUGO_VERSION 0.64.1
+ENV HUGO_VERSION 0.65.0
 # remove/comment the following line completely to build with vanilla Hugo:
 ENV HUGO_EXTENDED 1
 
@@ -17,7 +17,7 @@ LABEL maintainer="Jake Jarvis <jake@jarv.is>"
 # only install libc6-compat & libstdc++ if we're building extended Hugo
 # https://gitlab.com/yaegashi/hugo/commit/22f0d5cbd6114210ba7835468facbdee60609aa2
 RUN apk update && \
-    apk add --no-cache ca-certificates ${HUGO_EXTENDED:+libc6-compat libstdc++} && \
+    apk add --no-cache ca-certificates git ${HUGO_EXTENDED:+libc6-compat libstdc++} && \
     update-ca-certificates && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_EXTENDED:+extended_}${HUGO_VERSION}_Linux-64bit.tar.gz && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt && \
