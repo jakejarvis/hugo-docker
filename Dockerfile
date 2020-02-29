@@ -17,7 +17,14 @@ LABEL maintainer="Jake Jarvis <jake@jarv.is>"
 # only install libc6-compat & libstdc++ if we're building extended Hugo
 # https://gitlab.com/yaegashi/hugo/commit/22f0d5cbd6114210ba7835468facbdee60609aa2
 RUN apk update && \
-    apk add --no-cache ca-certificates git nodejs ${HUGO_EXTENDED:+libc6-compat libstdc++} && \
+    apk add --no-cache \
+      ca-certificates \
+      git \
+      nodejs \
+      asciidoctor \
+      python3 \
+      py3-pygments \
+      ${HUGO_EXTENDED:+libc6-compat libstdc++} && \
     update-ca-certificates && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_EXTENDED:+extended_}${HUGO_VERSION}_Linux-64bit.tar.gz && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt && \
@@ -26,5 +33,8 @@ RUN apk update && \
     mv ./hugo /usr/bin && \
     chmod +x /usr/bin/hugo && \
     rm -rf hugo_*
+
+# make sure everything's okay
+RUN hugo version
 
 ENTRYPOINT ["hugo"]
