@@ -1,0 +1,7 @@
+# Ignore all files...
+*
+
+# ...except readme and licenses:
+!LICENSE.md
+!README.md
+!THIRD_PARTY_NOTICE.md

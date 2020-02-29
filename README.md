@@ -1,5 +1,7 @@
 # GitHub Action for [Hugo](https://github.com/gohugoio/hugo) ✏️ 
 
+![Build docs](https://github.com/jakejarvis/hugo-build-action/workflows/Build%20docs/badge.svg)
+
 This is a simple GitHub Action that contains [Hugo](https://github.com/gohugoio/hugo), the popular static site generator. The [extended version](https://gohugo.io/troubleshooting/faq/#i-get-tocss-this-feature-is-not-available-in-your-current-hugo-version) is now bundled by default. Unlike other actions, this action includes releases going back to [v0.27](https://github.com/gohugoio/hugo/releases/tag/v0.27) (September 2017) for any compatibility requirements.
 
 ## Usage

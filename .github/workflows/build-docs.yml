@@ -1,0 +1,22 @@
+name: Build docs
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout action
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 1
+    - name: Checkout gohugoio/hugoDocs
+      uses: actions/checkout@master
+      with:
+        repository: gohugoio/hugoDocs
+        path: docs/
+        fetch-depth: 1
+    - name: Build site
+      uses: ./
+      with:
+        args: --source docs/ --minify --verbose
