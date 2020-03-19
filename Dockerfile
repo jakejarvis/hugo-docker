@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM node:12-alpine
 
 ENV HUGO_VERSION 0.67.1
 # remove/comment the following line completely to build with vanilla Hugo:
@@ -20,7 +20,6 @@ RUN apk update && \
     apk add --no-cache \
       ca-certificates \
       git \
-      nodejs \
       asciidoctor \
       python3 \
       py3-pygments \
