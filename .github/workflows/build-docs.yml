@@ -19,4 +19,4 @@ jobs:
     - name: Build site
       uses: ./
       with:
-        args: --source docs/ --minify --verbose
+        args: --source docs/ --minify --enableGitInfo --verbose
