@@ -1,6 +1,6 @@
 FROM node:12-alpine
 
-ENV HUGO_VERSION 0.68.0
+ENV HUGO_VERSION 0.68.1
 # remove/comment the following line completely to build with vanilla Hugo:
 ENV HUGO_EXTENDED 1
 
