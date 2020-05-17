@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: jakejarvis/hugo-build-action@master
+    - uses: jakejarvis/hugo-build-action@master  # ...or replace 'master' with a full version tag, such as: v0.64.1
       with:
         args: --minify --buildDrafts
     - uses: actions/upload-artifact@master
@@ -29,6 +29,14 @@ jobs:
         path: './public'
 ```
 
+## Included Software
+
+Just in case, the final container includes a few small third-party tools that are required by certain optional Hugo features.
+
+- [Asciidoctor](https://asciidoctor.org/)
+- [Pygments](https://pygments.org/)
+- [PostCSS (CLI)](https://github.com/postcss/postcss-cli)
+- [Autoprefixer](https://github.com/postcss/autoprefixer)
 
 ## Licenses
 

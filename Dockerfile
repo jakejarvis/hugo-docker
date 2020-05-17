@@ -20,11 +20,13 @@ RUN apk update && \
     apk add --no-cache \
       ca-certificates \
       git \
-      asciidoctor \
       python3 \
-      py3-pygments \
+      ruby \
       ${HUGO_EXTENDED:+libc6-compat libstdc++} && \
     update-ca-certificates && \
+    npm install --global postcss-cli autoprefixer && \
+    pip3 install --upgrade Pygments==2.* && \
+    gem install asciidoctor && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_EXTENDED:+extended_}${HUGO_VERSION}_Linux-64bit.tar.gz && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt && \
     grep hugo_${HUGO_EXTENDED:+extended_}${HUGO_VERSION}_Linux-64bit.tar.gz hugo_${HUGO_VERSION}_checksums.txt | sha256sum -c && \
@@ -33,7 +35,11 @@ RUN apk update && \
     chmod +x /usr/bin/hugo && \
     rm -rf hugo_*
 
-# make sure everything's okay
-RUN hugo version
+# verify everything's OK
+RUN hugo env && \
+    postcss --version && \
+    autoprefixer --version && \
+    pygmentize -V && \
+    asciidoctor --version
 
 ENTRYPOINT ["hugo"]
