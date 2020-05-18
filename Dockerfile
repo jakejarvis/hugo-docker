@@ -1,3 +1,5 @@
+# using a base image cached by GitHub:
+# https://github.com/actions/virtual-environments/blob/master/images/linux/scripts/installers/docker-moby.sh#L42
 FROM node:12-alpine
 
 ENV HUGO_VERSION 0.70.0
@@ -35,8 +37,9 @@ RUN apk update && \
     chmod +x /usr/bin/hugo && \
     rm -rf hugo_*
 
-# verify everything's OK
-RUN hugo env && \
+# verify everything's OK, fail otherwise
+RUN hugo version && \
+    hugo env && \
     postcss --version && \
     autoprefixer --version && \
     pygmentize -V && \
