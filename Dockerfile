@@ -2,7 +2,7 @@
 # https://github.com/actions/virtual-environments/blob/master/images/linux/scripts/installers/docker-moby.sh#L42
 FROM node:12-alpine
 
-ENV HUGO_VERSION 0.71.1
+ENV HUGO_VERSION 0.72.0
 # remove/comment the following line completely to build with vanilla Hugo:
 ENV HUGO_EXTENDED 1
 
