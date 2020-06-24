@@ -1,6 +1,6 @@
-# using a base image cached by GitHub:
-# https://github.com/actions/virtual-environments/blob/master/images/linux/scripts/installers/docker-moby.sh#L42
-FROM node:12-alpine
+# Hugo doesn't require Go to run, *except* if you're using Hugo Modules. It's
+# much easier to install Node on the Go base image than vice-versa.
+FROM golang:1.14-alpine
 
 ENV HUGO_VERSION 0.73.0
 # remove/comment the following line completely to build with vanilla Hugo:
@@ -22,7 +22,11 @@ RUN apk update && \
     apk add --no-cache \
       ca-certificates \
       git \
+      nodejs \
+      npm \
+      yarn \
       python3 \
+      py3-pip \
       ruby \
       ${HUGO_EXTENDED:+libc6-compat libstdc++} && \
     update-ca-certificates && \
@@ -33,9 +37,9 @@ RUN apk update && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt && \
     grep hugo_${HUGO_EXTENDED:+extended_}${HUGO_VERSION}_Linux-64bit.tar.gz hugo_${HUGO_VERSION}_checksums.txt | sha256sum -c && \
     tar xf hugo_${HUGO_EXTENDED:+extended_}${HUGO_VERSION}_Linux-64bit.tar.gz && \
-    mv ./hugo /usr/bin && \
-    chmod +x /usr/bin/hugo && \
-    rm -rf hugo_*
+    mv ./hugo /usr/local/bin/ && \
+    chmod +x /usr/local/bin/hugo && \
+    rm -rf hugo_* LICENSE README.md
 
 # verify everything's OK, fail otherwise
 RUN hugo version && \

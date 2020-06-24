@@ -31,12 +31,15 @@ jobs:
 
 ## Included Software
 
-Just in case, the final container includes a few small third-party tools that are required by certain optional Hugo features.
+Just in case, the final container includes a few small third-party tools that are required by certain optional Hugo features:
 
-- [Asciidoctor](https://asciidoctor.org/)
-- [Pygments](https://pygments.org/)
 - [PostCSS (CLI)](https://github.com/postcss/postcss-cli)
 - [Autoprefixer](https://github.com/postcss/autoprefixer)
+- [Babel (CLI)](https://babeljs.io/)
+- [Pygments](https://pygments.org/)
+- [Asciidoctor](https://asciidoctor.org/)
+
+Node (with NPM and Yarn) and Go (for [Hugo Modules](https://gohugo.io/hugo-modules/) support) are also pre-installed.
 
 ## Licenses
 
