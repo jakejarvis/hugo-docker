@@ -2,9 +2,10 @@
 # much easier to install Node on the Go base image than vice-versa.
 FROM golang:1.14-alpine
 
-ENV HUGO_VERSION 0.73.0
+# the following version can be overridden at image build time with --build-arg
+ARG HUGO_VERSION=0.73.0
 # remove/comment the following line completely to build with vanilla Hugo:
-ENV HUGO_EXTENDED 1
+ARG HUGO_EXTENDED=1
 
 LABEL "com.github.actions.name"="Hugo Build"
 LABEL "com.github.actions.description"="Hugo as an action, with extended support and legacy versions"
