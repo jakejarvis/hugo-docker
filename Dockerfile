@@ -3,7 +3,7 @@
 FROM golang:1.14-alpine
 
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.73.0
+ARG HUGO_VERSION=0.74.0
 # remove/comment the following line completely to build with vanilla Hugo:
 ARG HUGO_EXTENDED=1
 
