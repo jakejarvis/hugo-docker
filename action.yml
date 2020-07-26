@@ -1,9 +1,0 @@
-name: "Hugo Build"
-description: "Hugo as an action, with extended support and legacy versions"
-author: jakejarvis
-runs:
-  using: docker
-  image: Dockerfile
-branding:
-  icon: edit
-  color: gray-dark

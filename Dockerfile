@@ -7,13 +7,8 @@ ARG HUGO_VERSION=0.74.3
 # remove/comment the following line completely to build with vanilla Hugo:
 ARG HUGO_EXTENDED=1
 
-LABEL "com.github.actions.name"="Hugo Build"
-LABEL "com.github.actions.description"="Hugo as an action, with extended support and legacy versions"
-LABEL "com.github.actions.icon"="edit"
-LABEL "com.github.actions.color"="gray-dark"
-
-LABEL version="${HUGO_VERSION}${HUGO_EXTENDED:+-extended}"
-LABEL repository="https://github.com/jakejarvis/hugo-build-action"
+LABEL version="${HUGO_VERSION}"
+LABEL repository="https://github.com/jakejarvis/hugo-docker"
 LABEL homepage="https://jarv.is/"
 LABEL maintainer="Jake Jarvis <jake@jarv.is>"
 
@@ -42,7 +37,7 @@ RUN apk update && \
     chmod +x /usr/local/bin/hugo && \
     rm -rf hugo_* LICENSE README.md
 
-# verify everything's OK, fail otherwise
+# verify everything's OK, exit otherwise
 RUN hugo version && \
     hugo env && \
     postcss --version && \
@@ -50,5 +45,12 @@ RUN hugo version && \
     babel --version && \
     pygmentize -V && \
     asciidoctor --version
+
+# add site source as volume
+VOLUME /src
+WORKDIR /src
+
+# expose live-refresh server
+EXPOSE 1313
 
 ENTRYPOINT ["hugo"]
