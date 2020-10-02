@@ -26,7 +26,7 @@ RUN apk update && \
       ruby \
       ${HUGO_EXTENDED:+libc6-compat libstdc++} && \
     update-ca-certificates && \
-    npm install --global postcss-cli autoprefixer @babel/core @babel/cli && \
+    npm install --global postcss postcss-cli autoprefixer @babel/core @babel/cli && \
     pip3 install --upgrade Pygments==2.* && \
     gem install asciidoctor && \
     wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_EXTENDED:+extended_}${HUGO_VERSION}_Linux-64bit.tar.gz && \
