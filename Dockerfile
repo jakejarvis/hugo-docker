@@ -12,6 +12,9 @@ LABEL repository="https://github.com/jakejarvis/hugo-docker"
 LABEL homepage="https://jarv.is/"
 LABEL maintainer="Jake Jarvis <jake@jarv.is>"
 
+# https://docs.github.com/en/free-pro-team@latest/packages/managing-container-images-with-github-container-registry/connecting-a-repository-to-a-container-image#connecting-a-repository-to-a-container-image-on-the-command-line
+LABEL org.opencontainers.image.source https://github.com/jakejarvis/hugo-docker
+
 # only install libc6-compat & libstdc++ if we're building extended Hugo
 # https://gitlab.com/yaegashi/hugo/commit/22f0d5cbd6114210ba7835468facbdee60609aa2
 RUN apk update && \
