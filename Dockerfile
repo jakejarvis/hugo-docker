@@ -1,19 +1,17 @@
-# Hugo doesn't require Go to run, *except* if you're using Hugo Modules. It's
-# much easier to install Node on the Go base image than vice-versa.
-FROM golang:1.16-alpine AS build
-
 # the following version can be overridden at image build time with --build-arg
 ARG HUGO_VERSION=0.81.0
-# remove/comment the following line completely to build with vanilla Hugo:
+# remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
-LABEL version="${HUGO_VERSION}"
-LABEL repository="https://github.com/jakejarvis/hugo-docker"
-LABEL homepage="https://jarv.is/"
-LABEL maintainer="Jake Jarvis <jake@jarv.is>"
+# ---
 
-# https://docs.github.com/en/free-pro-team@latest/packages/managing-container-images-with-github-container-registry/connecting-a-repository-to-a-container-image#connecting-a-repository-to-a-container-image-on-the-command-line
-LABEL org.opencontainers.image.source https://github.com/jakejarvis/hugo-docker
+# Hugo >= v0.81.0 requires Go 1.16+ to build
+FROM golang:1.16-alpine AS build
+
+# renew global args from above
+# https://docs.docker.com/engine/reference/builder/#scope
+ARG HUGO_VERSION
+ARG HUGO_BUILD_TAGS
 
 ARG CGO=1
 ENV CGO_ENABLED=${CGO}
@@ -45,6 +43,19 @@ RUN go get github.com/yaegashi/muslstack && \
 
 FROM alpine:3.13
 
+# renew global args from above
+ARG HUGO_VERSION
+ARG HUGO_BUILD_TAGS
+
+LABEL version="${HUGO_VERSION}"
+LABEL repository="https://github.com/jakejarvis/hugo-docker"
+LABEL homepage="https://jarv.is/"
+LABEL maintainer="Jake Jarvis <jake@jarv.is>"
+
+# https://docs.github.com/en/free-pro-team@latest/packages/managing-container-images-with-github-container-registry/connecting-a-repository-to-a-container-image#connecting-a-repository-to-a-container-image-on-the-command-line
+LABEL org.opencontainers.image.source="https://github.com/jakejarvis/hugo-docker"
+
+# bring over patched binary from build stage
 COPY --from=build /go/bin/hugo /usr/local/bin/hugo
 
 # libc6-compat & libstdc++ are required for extended SASS libraries
@@ -65,7 +76,12 @@ RUN apk update && \
     update-ca-certificates
 
 # download Hugo and miscellaneous optional dependencies
-RUN npm install --global postcss postcss-cli autoprefixer @babel/core @babel/cli && \
+RUN npm install --global \
+      postcss \
+      postcss-cli \
+      autoprefixer \
+      @babel/core \
+      @babel/cli && \
     gem install asciidoctor && \
     pip3 install --upgrade Pygments==2.*
 
@@ -83,7 +99,7 @@ RUN hugo env && \
 VOLUME /src
 WORKDIR /src
 
-# expose live-refresh server
+# expose live-refresh server on default port
 EXPOSE 1313
 
 ENTRYPOINT ["hugo"]
