@@ -3,20 +3,20 @@ name: Build
 on:
   push:
     branches:
-      - build
+      - master
 
 jobs:
   docker:
     runs-on: ubuntu-latest
-    env:
-      HUB_IMAGE: jakejarvis/hugo-extended
-      GHCR_IMAGE: ghcr.io/jakejarvis/hugo-extended
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Prepare
         id: prep
+        env:
+          HUB_IMAGE: jakejarvis/hugo-extended
+          GHCR_IMAGE: ghcr.io/jakejarvis/hugo-extended
         run: |
           TAGS="${HUB_IMAGE}:latest,${GHCR_IMAGE}:latest"
 
@@ -68,12 +68,11 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/386
-          push: false
-          load: true
+          platforms: linux/amd64,linux/arm64
+          push: true
           tags: ${{ steps.prep.outputs.tags }}
-          #cache-from: type=local,src=/tmp/.buildx-cache
-          #cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Image digest
         run: echo ${{ steps.build.outputs.digest }}

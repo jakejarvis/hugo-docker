@@ -5,7 +5,7 @@ FROM golang:1.16-alpine AS build
 # the following version can be overridden at image build time with --build-arg
 ARG HUGO_VERSION=0.81.0
 # remove/comment the following line completely to build with vanilla Hugo:
-#ARG HUGO_BUILD_TAGS=extended
+ARG HUGO_BUILD_TAGS=extended
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
