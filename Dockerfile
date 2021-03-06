@@ -5,7 +5,7 @@ FROM golang:1.16-alpine AS build
 # the following version can be overridden at image build time with --build-arg
 ARG HUGO_VERSION=0.81.0
 # remove/comment the following line completely to build with vanilla Hugo:
-ARG HUGO_BUILD_TAGS=extended
+#ARG HUGO_BUILD_TAGS=extended
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
@@ -34,7 +34,7 @@ RUN wget https://github.com/gohugoio/hugo/archive/v${HUGO_VERSION}.tar.gz && \
     tar xf v${HUGO_VERSION}.tar.gz --strip-components=1 && \
     rm v${HUGO_VERSION}.tar.gz
 
-RUN mage hugo && mage install
+RUN mage -v hugo && mage install
 
 # fix potential stack size problems on Alpine
 # https://github.com/microsoft/vscode-dev-containers/blob/fb63f7e016877e13535d4116b458d8f28012e87f/containers/hugo/.devcontainer/Dockerfile#L19
@@ -49,7 +49,6 @@ COPY --from=build /go/bin/hugo /usr/local/bin/hugo
 
 # libc6-compat & libstdc++ are required for extended SASS libraries
 # ca-certificates are required to fetch outside resources (like Twitter oEmbeds)
-
 RUN apk update && \
     apk add --no-cache \
       ca-certificates \
