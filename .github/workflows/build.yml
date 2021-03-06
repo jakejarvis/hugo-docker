@@ -8,6 +8,8 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE: jakejarvis/hugo-extended
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -15,7 +17,6 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          DOCKER_IMAGE=${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY#*/}
           VERSION=latest
           SHORTREF=${GITHUB_SHA::8}
 
