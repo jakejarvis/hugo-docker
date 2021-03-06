@@ -1,4 +1,4 @@
-name: Build
+name: Build and Push
 
 on:
   push:
@@ -12,8 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Prepare
-        id: prep
+      - name: Prepare tags
+        id: tag
         env:
           HUB_IMAGE: jakejarvis/hugo-extended
           GHCR_IMAGE: ghcr.io/jakejarvis/hugo-extended
@@ -70,7 +70,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ steps.prep.outputs.tags }}
+          tags: ${{ steps.tag.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 

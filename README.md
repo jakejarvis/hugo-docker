@@ -1,8 +1,8 @@
 # ✏️ [Hugo Extended](https://github.com/gohugoio/hugo) via Docker 
 
-[![Build docs](https://img.shields.io/docker/cloud/build/jakejarvis/hugo-extended?label=Docker%20Hub&logo=docker&logoColor=%23fff)](https://hub.docker.com/r/jakejarvis/hugo-extended)
+[![Build](https://github.com/jakejarvis/hugo-docker/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/jakejarvis/hugo-docker/actions/workflows/build.yml)
 
-A base image to ease local development of Hugo sites, including [Hugo Extended](https://gohugo.io/troubleshooting/faq/#i-get-tocss-this-feature-is-not-available-in-your-current-hugo-version) (with SASS/SCSS support) and optional third-party tools ([listed below](#third-party-software)).
+A base image to ease local development of Hugo sites, including [Hugo Extended](https://gohugo.io/troubleshooting/faq/#i-get-tocss-this-feature-is-not-available-in-your-current-hugo-version) (with SASS/SCSS support) and optional third-party tools ([listed below](#third-party-software)). Now includes native support for both AMD64 and ARM64 platforms!
 
 ## Usage
 
@@ -35,11 +35,11 @@ When using Docker to run a live server (i.e. `hugo server`), you must pass `--bi
 
 ## Third-party software
 
-Just in case, the final container includes a few small third-party tools that are required by certain optional Hugo features:
+Just in case, the final Alpine Linux container includes a few small third-party tools that are required by certain optional Hugo features:
 
-- [PostCSS (CLI)](https://github.com/postcss/postcss-cli)
+- [PostCSS](https://github.com/postcss/postcss-cli)
 - [Autoprefixer](https://github.com/postcss/autoprefixer)
-- [Babel (CLI)](https://babeljs.io/)
+- [Babel](https://babeljs.io/)
 - [Pygments](https://pygments.org/)
 - [Asciidoctor](https://asciidoctor.org/)
 
