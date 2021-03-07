@@ -45,7 +45,6 @@ FROM alpine:3.13
 
 # renew global args from above
 ARG HUGO_VERSION
-ARG HUGO_BUILD_TAGS
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
@@ -73,10 +72,8 @@ RUN apk update && \
       ruby \
       libc6-compat \
       libstdc++ && \
-    update-ca-certificates
-
-# download Hugo and miscellaneous optional dependencies
-RUN npm install --global \
+    update-ca-certificates && \
+    npm install --global --production \
       postcss \
       postcss-cli \
       autoprefixer \
