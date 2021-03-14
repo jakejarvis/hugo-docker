@@ -25,12 +25,21 @@ RUN apk update && \
     apk add --no-cache \
       gcc \
       g++ \
-      musl-dev && \
+      musl-dev \
+      git && \
     go get github.com/magefile/mage
 
-RUN wget https://github.com/gohugoio/hugo/archive/v${HUGO_VERSION}.tar.gz && \
-    tar xf v${HUGO_VERSION}.tar.gz --strip-components=1 && \
-    rm v${HUGO_VERSION}.tar.gz
+# clone source from Git repo:
+RUN git clone \
+      --branch "v${HUGO_VERSION}" \
+      --single-branch \
+      --depth 1 \
+      https://github.com/gohugoio/hugo.git ./
+
+# download source from GitHub release (old method):
+# RUN wget https://github.com/gohugoio/hugo/archive/v${HUGO_VERSION}.tar.gz && \
+#     tar xf v${HUGO_VERSION}.tar.gz --strip-components=1 && \
+#     rm v${HUGO_VERSION}.tar.gz
 
 RUN mage -v hugo && mage install
 
