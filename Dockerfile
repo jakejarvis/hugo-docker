@@ -3,10 +3,12 @@ ARG HUGO_VERSION=0.82.0
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
+# Hugo >= v0.81.0 requires Go 1.16+ to build
+ARG GO_VERSION=1.16
+
 # ---
 
-# Hugo >= v0.81.0 requires Go 1.16+ to build
-FROM golang:1.16-alpine3.13 AS build
+FROM golang:${GO_VERSION}-alpine AS build
 
 # renew global args from above
 # https://docs.docker.com/engine/reference/builder/#scope
@@ -36,11 +38,6 @@ RUN git clone \
       --depth 1 \
       https://github.com/gohugoio/hugo.git ./
 
-# download source from GitHub release (old method):
-# RUN wget https://github.com/gohugoio/hugo/archive/v${HUGO_VERSION}.tar.gz && \
-#     tar xf v${HUGO_VERSION}.tar.gz --strip-components=1 && \
-#     rm v${HUGO_VERSION}.tar.gz
-
 RUN mage -v hugo && mage install
 
 # fix potential stack size problems on Alpine
@@ -50,10 +47,11 @@ RUN go get github.com/yaegashi/muslstack && \
 
 # ---
 
-FROM alpine:3.13
+FROM alpine:latest
 
-# renew global args from above
+# renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
+ARG PANDOC_VERSION=2.13
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
@@ -66,15 +64,22 @@ LABEL org.opencontainers.image.source="https://github.com/jakejarvis/hugo-docker
 # bring over patched binary from build stage
 COPY --from=build /go/bin/hugo /usr/local/bin/hugo
 
-# libc6-compat & libstdc++ are required for extended SASS libraries
-# ca-certificates are required to fetch outside resources (like Twitter oEmbeds)
-RUN apk update && \
+# this step is intentionally a bit of a mess to minimize the number of layers in the final image
+RUN if [ "$(uname -m)" = "aarch64" ]; then \
+      export ARCH="arm64"; \
+    else \
+      export ARCH="amd64"; \
+    fi && \
+    # alpine packages
+    # libc6-compat & libstdc++ are required for extended SASS libraries
+    # ca-certificates are required to fetch outside resources (like Twitter oEmbeds)
+    apk update && \
     apk add --no-cache \
       ca-certificates \
+      tzdata \
       git \
       nodejs \
       npm \
-      yarn \
       go \
       python3 \
       py3-pip \
@@ -82,24 +87,37 @@ RUN apk update && \
       libc6-compat \
       libstdc++ && \
     update-ca-certificates && \
+    # npm packages
     npm install --global --production \
+      yarn \
       postcss \
       postcss-cli \
       autoprefixer \
       @babel/core \
       @babel/cli && \
+    # ruby gems
     gem install asciidoctor && \
-    pip3 install --upgrade Pygments==2.*
-
-# verify everything's OK, exit otherwise
-RUN hugo env && \
+    # python packages
+    python3 -m pip install --upgrade Pygments==2.* docutils && \
+    # manually fetch pandoc binary
+    wget -O pandoc.tar.gz https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-${ARCH}.tar.gz && \
+    tar xf pandoc.tar.gz && \
+    mv ./pandoc-${PANDOC_VERSION}/bin/pandoc /usr/local/bin/ && \
+    chmod +x /usr/local/bin/pandoc && \
+    rm -rf pandoc.tar.gz pandoc-${PANDOC_VERSION} && \
+    # make super duper sure that everything went OK, exit otherwise
+    hugo env && \
     go version && \
     node --version && \
+    npm --version && \
+    yarn --version && \
     postcss --version && \
     autoprefixer --version && \
     babel --version && \
     pygmentize -V && \
-    asciidoctor --version
+    asciidoctor --version && \
+    pandoc --version && \
+    rst2html.py --version
 
 # add site source as volume
 VOLUME /src

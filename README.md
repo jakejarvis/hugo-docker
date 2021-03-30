@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/jakejarvis/hugo-docker/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/jakejarvis/hugo-docker/actions/workflows/build.yml)
 
-A base image to ease local development of Hugo sites, including [Hugo Extended](https://gohugo.io/troubleshooting/faq/#i-get-tocss-this-feature-is-not-available-in-your-current-hugo-version) (with SASS/SCSS support) and optional third-party tools ([listed below](#third-party-software)). Now includes native support for both AMD64 and ARM64 platforms!
+A base image to ease local development of Hugo sites, including [Hugo Extended](https://gohugo.io/troubleshooting/faq/#i-get-tocss-this-feature-is-not-available-in-your-current-hugo-version) (with SASS/SCSS support) and optional third-party tools ([listed below](#third-party-software)). Now with [multi-architecture images](https://docs.docker.com/docker-for-mac/multi-arch/) for native AMD64 and ARM64 support!
 
 ## Usage
 
@@ -42,8 +42,10 @@ Just in case, the final Alpine Linux container includes a few small third-party 
 - [Babel](https://babeljs.io/)
 - [Pygments](https://pygments.org/)
 - [Asciidoctor](https://asciidoctor.org/)
+- [Pandoc](https://pandoc.org/)
+- [Docutils](https://docutils.sourceforge.io/) / [RST](https://docutils.sourceforge.io/rst.html)
 
-Node (with NPM and Yarn) and Go (for [Hugo Modules](https://gohugo.io/hugo-modules/) support) are also pre-installed.
+Node (with NPM and Yarn), Go (for [Hugo Modules](https://gohugo.io/hugo-modules/) support), and Python are also pre-installed.
 
 ## Licenses
 
