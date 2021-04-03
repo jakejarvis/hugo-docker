@@ -23,8 +23,7 @@ ENV GO111MODULE=on
 WORKDIR /go/src/github.com/gohugoio/hugo
 
 # gcc/g++ are required to build SASS libraries for extended version
-RUN apk update && \
-    apk add --no-cache \
+RUN apk add --update --no-cache \
       gcc \
       g++ \
       musl-dev \
@@ -51,6 +50,7 @@ FROM alpine:latest
 
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
+# https://github.com/jgm/pandoc/releases
 ARG PANDOC_VERSION=2.13
 
 LABEL version="${HUGO_VERSION}"
@@ -62,7 +62,7 @@ LABEL maintainer="Jake Jarvis <jake@jarv.is>"
 LABEL org.opencontainers.image.source="https://github.com/jakejarvis/hugo-docker"
 
 # bring over patched binary from build stage
-COPY --from=build /go/bin/hugo /usr/local/bin/hugo
+COPY --from=build /go/bin/hugo /usr/bin/hugo
 
 # this step is intentionally a bit of a mess to minimize the number of layers in the final image
 RUN if [ "$(uname -m)" = "aarch64" ]; then \
@@ -73,8 +73,7 @@ RUN if [ "$(uname -m)" = "aarch64" ]; then \
     # alpine packages
     # libc6-compat & libstdc++ are required for extended SASS libraries
     # ca-certificates are required to fetch outside resources (like Twitter oEmbeds)
-    apk update && \
-    apk add --no-cache \
+    apk add --update --no-cache \
       ca-certificates \
       tzdata \
       git \
@@ -95,16 +94,19 @@ RUN if [ "$(uname -m)" = "aarch64" ]; then \
       autoprefixer \
       @babel/core \
       @babel/cli && \
+    npm cache clean --force && \
     # ruby gems
     gem install asciidoctor && \
     # python packages
-    python3 -m pip install --upgrade Pygments==2.* docutils && \
+    python3 -m pip install --no-cache-dir --upgrade Pygments==2.* docutils && \
     # manually fetch pandoc binary
     wget -O pandoc.tar.gz https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-${ARCH}.tar.gz && \
     tar xf pandoc.tar.gz && \
-    mv ./pandoc-${PANDOC_VERSION}/bin/pandoc /usr/local/bin/ && \
-    chmod +x /usr/local/bin/pandoc && \
+    mv ./pandoc-${PANDOC_VERSION}/bin/pandoc /usr/bin/ && \
+    chmod +x /usr/bin/pandoc && \
     rm -rf pandoc.tar.gz pandoc-${PANDOC_VERSION} && \
+    # clean up some junk
+    rm -rf /tmp/* /var/tmp/* /var/cache/apk/* && \
     # make super duper sure that everything went OK, exit otherwise
     hugo env && \
     go version && \
