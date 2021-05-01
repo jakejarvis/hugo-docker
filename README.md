@@ -1,4 +1,4 @@
-# ✏️ [Hugo Extended](https://github.com/gohugoio/hugo) via Docker 
+# ✏️ [Hugo Extended](https://github.com/gohugoio/hugo) via Docker
 
 [![Build](https://github.com/jakejarvis/hugo-docker/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/jakejarvis/hugo-docker/actions/workflows/build.yml)
 
@@ -44,6 +44,7 @@ Just in case, the final Alpine Linux container includes a few small third-party 
 - [Asciidoctor](https://asciidoctor.org/)
 - [Pandoc](https://pandoc.org/)
 - [Docutils](https://docutils.sourceforge.io/) / [RST](https://docutils.sourceforge.io/rst.html)
+- [Embedded Dart Sass](https://github.com/sass/dart-sass-embedded) (amd64 only)
 
 Node (with NPM and Yarn), Go (for [Hugo Modules](https://gohugo.io/hugo-modules/) support), and Python are also pre-installed.
 
