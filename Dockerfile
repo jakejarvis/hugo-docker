@@ -46,12 +46,14 @@ RUN go get github.com/yaegashi/muslstack && \
 
 # ---
 
-FROM alpine:latest
+FROM alpine:3.13
 
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
 ARG PANDOC_VERSION=2.13
+# https://github.com/sass/dart-sass-embedded/releases
+ARG DART_SASS_VERSION=1.0.0-beta.7
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
@@ -65,10 +67,13 @@ LABEL org.opencontainers.image.source="https://github.com/jakejarvis/hugo-docker
 COPY --from=build /go/bin/hugo /usr/bin/hugo
 
 # this step is intentionally a bit of a mess to minimize the number of layers in the final image
-RUN if [ "$(uname -m)" = "aarch64" ]; then \
-      export ARCH="arm64"; \
+RUN set -euo pipefail && \
+    if [ "$(uname -m)" = "x86_64" ]; then \
+      ARCH="amd64"; \
+    elif [ "$(uname -m)" = "aarch64" ]; then \
+      ARCH="arm64"; \
     else \
-      export ARCH="amd64"; \
+      echo "Unknown build architecture, quitting." && exit 2; \
     fi && \
     # alpine packages
     # libc6-compat & libstdc++ are required for extended SASS libraries
@@ -105,6 +110,14 @@ RUN if [ "$(uname -m)" = "aarch64" ]; then \
     mv ./pandoc-${PANDOC_VERSION}/bin/pandoc /usr/bin/ && \
     chmod +x /usr/bin/pandoc && \
     rm -rf pandoc.tar.gz pandoc-${PANDOC_VERSION} && \
+    # manually fetch Dart SASS binary (on x64 only)
+    if [ "$ARCH" = "amd64" ]; then \
+      wget -O sass-embedded.tar.gz https://github.com/sass/dart-sass-embedded/releases/download/${DART_SASS_VERSION}/sass_embedded-${DART_SASS_VERSION}-linux-x64.tar.gz && \
+      tar xf sass-embedded.tar.gz && \
+      mv ./sass_embedded/dart-sass-embedded /usr/bin/ && \
+      chmod +x /usr/bin/dart-sass-embedded && \
+      rm -rf sass-embedded.tar.gz sass_embedded; \
+    fi && \
     # clean up some junk
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* && \
     # make super duper sure that everything went OK, exit otherwise
