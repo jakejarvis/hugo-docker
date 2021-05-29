@@ -8,7 +8,7 @@ ARG GO_VERSION=1.16
 
 # ---
 
-FROM golang:${GO_VERSION}-alpine AS build
+FROM golang:${GO_VERSION}-alpine3.13 AS build
 
 # renew global args from above
 # https://docs.docker.com/engine/reference/builder/#scope
@@ -51,7 +51,7 @@ FROM alpine:3.13
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
-ARG PANDOC_VERSION=2.13
+ARG PANDOC_VERSION=2.14
 # https://github.com/sass/dart-sass-embedded/releases
 ARG DART_SASS_VERSION=1.0.0-beta.7
 
