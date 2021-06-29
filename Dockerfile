@@ -1,5 +1,5 @@
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.84.2
+ARG HUGO_VERSION=0.84.3
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
