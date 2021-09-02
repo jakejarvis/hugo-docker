@@ -1,10 +1,10 @@
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.87.0
+ARG HUGO_VERSION=0.88.0
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
 # Hugo >= v0.81.0 requires Go 1.16+ to build
-ARG GO_VERSION=1.16
+ARG GO_VERSION=1.17
 ARG ALPINE_VERSION=3.14
 
 # ---
