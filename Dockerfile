@@ -1,5 +1,5 @@
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.88.1
+ARG HUGO_VERSION=0.89.0
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
@@ -52,9 +52,9 @@ FROM alpine:${ALPINE_VERSION}
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
-ARG PANDOC_VERSION=2.14.1
+ARG PANDOC_VERSION=2.16
 # https://github.com/sass/dart-sass-embedded/releases
-ARG DART_SASS_VERSION=1.0.0-beta.8
+ARG DART_SASS_VERSION=1.0.0-beta.12
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
