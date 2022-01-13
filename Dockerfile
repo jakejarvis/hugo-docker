@@ -1,11 +1,11 @@
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.91.2
+ARG HUGO_VERSION=0.92.0
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
 # Hugo >= v0.81.0 requires Go 1.16+ to build
 ARG GO_VERSION=1.17
-ARG ALPINE_VERSION=3.14
+ARG ALPINE_VERSION=3.15
 
 # ---
 
@@ -52,9 +52,9 @@ FROM alpine:${ALPINE_VERSION}
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
-ARG PANDOC_VERSION=2.16.2
+ARG PANDOC_VERSION=2.17
 # https://github.com/sass/dart-sass-embedded/releases
-ARG DART_SASS_VERSION=1.0.0-beta.12
+ARG DART_SASS_VERSION=1.0.0-beta.15
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
