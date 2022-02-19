@@ -95,6 +95,7 @@ RUN set -euo pipefail && \
     # npm packages
     npm install --global --production \
       yarn \
+      tailwindcss \
       postcss \
       postcss-cli \
       autoprefixer \
