@@ -1,10 +1,10 @@
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.94.2
+ARG HUGO_VERSION=0.95.0
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
 # Hugo >= v0.81.0 requires Go 1.16+ to build
-ARG GO_VERSION=1.17
+ARG GO_VERSION=1.18
 ARG ALPINE_VERSION=3.15
 
 # ---
@@ -29,7 +29,7 @@ RUN apk add --update --no-cache \
       g++ \
       musl-dev \
       git && \
-    go get github.com/magefile/mage
+    go install github.com/magefile/mage@latest
 
 # clone source from Git repo:
 RUN git clone \
@@ -42,7 +42,7 @@ RUN mage -v hugo && mage install
 
 # fix potential stack size problems on Alpine
 # https://github.com/microsoft/vscode-dev-containers/blob/fb63f7e016877e13535d4116b458d8f28012e87f/containers/hugo/.devcontainer/Dockerfile#L19
-RUN go get github.com/yaegashi/muslstack && \
+RUN go install github.com/yaegashi/muslstack@latest && \
     muslstack -s 0x800000 /go/bin/hugo
 
 # ---
