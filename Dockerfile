@@ -5,7 +5,7 @@ ARG HUGO_BUILD_TAGS=extended
 
 # Hugo >= v0.81.0 requires Go 1.16+ to build
 ARG GO_VERSION=1.18
-ARG ALPINE_VERSION=3.15
+ARG ALPINE_VERSION=3.16
 
 # ---
 
@@ -28,8 +28,7 @@ RUN apk add --update --no-cache \
       gcc \
       g++ \
       musl-dev \
-      git && \
-    go install github.com/magefile/mage@latest
+      git
 
 # clone source from Git repo:
 RUN git clone \
@@ -38,7 +37,9 @@ RUN git clone \
       --depth 1 \
       https://github.com/gohugoio/hugo.git ./
 
-RUN mage -v hugo && mage install
+# https://github.com/gohugoio/hugo/commit/241481931f5f5f2803cd4be519936b26d8648dfd
+RUN go build -v -ldflags "-X github.com/gohugoio/hugo/common/hugo.vendorInfo=docker" -tags "$HUGO_BUILD_TAGS" && \
+    mv ./hugo /go/bin/hugo
 
 # fix potential stack size problems on Alpine
 # https://github.com/microsoft/vscode-dev-containers/blob/fb63f7e016877e13535d4116b458d8f28012e87f/containers/hugo/.devcontainer/Dockerfile#L19
@@ -52,9 +53,9 @@ FROM alpine:${ALPINE_VERSION}
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
-ARG PANDOC_VERSION=2.17.1.1
+ARG PANDOC_VERSION=2.18
 # https://github.com/sass/dart-sass-embedded/releases
-ARG DART_SASS_VERSION=1.49.9
+ARG DART_SASS_VERSION=1.54.0
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
