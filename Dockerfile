@@ -1,5 +1,5 @@
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.108.0
+ARG HUGO_VERSION=0.109.0
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
@@ -55,7 +55,7 @@ ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
 ARG PANDOC_VERSION=2.19.2
 # https://github.com/sass/dart-sass-embedded/releases
-ARG DART_SASS_VERSION=1.56.1
+ARG DART_SASS_VERSION=1.57.1
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
