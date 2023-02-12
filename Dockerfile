@@ -122,6 +122,8 @@ RUN set -euo pipefail && \
     fi && \
     # clean up some junk
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* && \
+    # tell git to trust /src 
+    git config --global --add safe.directory /src && \
     # make super duper sure that everything went OK, exit otherwise
     hugo env && \
     go version && \
