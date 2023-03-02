@@ -1,11 +1,11 @@
 # the following version can be overridden at image build time with --build-arg
-ARG HUGO_VERSION=0.110.0
+ARG HUGO_VERSION=0.111.0
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
 # Hugo >= v0.81.0 requires Go 1.16+ to build
 ARG GO_VERSION=1.19
-ARG ALPINE_VERSION=3.16
+ARG ALPINE_VERSION=3.17
 
 # ---
 
@@ -55,7 +55,7 @@ ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
 ARG PANDOC_VERSION=2.19.2
 # https://github.com/sass/dart-sass-embedded/releases
-ARG DART_SASS_VERSION=1.57.1
+ARG DART_SASS_VERSION=1.58.3
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
@@ -122,7 +122,7 @@ RUN set -euo pipefail && \
     fi && \
     # clean up some junk
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* && \
-    # tell git to trust /src 
+    # tell git to trust /src
     git config --global --add safe.directory /src && \
     # make super duper sure that everything went OK, exit otherwise
     hugo env && \
