@@ -8,7 +8,7 @@ ARG HUGO_BUILD_TAGS=extended
 # ---
 
 # Hugo >= v0.81.0 requires Go 1.16+ to build
-FROM golang:1.19-alpine3.17 AS build
+FROM golang:1.20-alpine3.17 AS build
 
 # renew global args from above
 # https://docs.docker.com/engine/reference/builder/#scope
