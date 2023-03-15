@@ -3,7 +3,9 @@
   "extends": [
     "config:base"
   ],
-  "automerge": false,
+  "automerge": true,
+  "platformAutomerge": true,
+  "ignoreTests": true,
   "regexManagers": [
     {
       "fileMatch": [
