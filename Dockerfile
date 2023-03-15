@@ -1,15 +1,14 @@
 # the following version can be overridden at image build time with --build-arg
+# renovate: datasource=github-releases depName=gohugoio/hugo
 ARG HUGO_VERSION=0.111.3
+
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
 
-# Hugo >= v0.81.0 requires Go 1.16+ to build
-ARG GO_VERSION=1.19
-ARG ALPINE_VERSION=3.17
-
 # ---
 
-FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS build
+# Hugo >= v0.81.0 requires Go 1.16+ to build
+FROM golang:1.19-alpine3.17 AS build
 
 # renew global args from above
 # https://docs.docker.com/engine/reference/builder/#scope
@@ -48,14 +47,16 @@ RUN go install github.com/yaegashi/muslstack@latest && \
 
 # ---
 
-FROM alpine:${ALPINE_VERSION}
+FROM alpine:3.17
 
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
+# renovate: datasource=github-releases depName=jgm/pandoc
 ARG PANDOC_VERSION=2.19.2
 # https://github.com/sass/dart-sass-embedded/releases
-ARG DART_SASS_VERSION=1.58.3
+# renovate: datasource=github-releases depName=sass/dart-sass-embedded
+ARG DART_SASS_VERSION=1.59.3
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
