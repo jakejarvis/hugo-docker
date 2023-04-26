@@ -56,7 +56,7 @@ ARG HUGO_VERSION
 ARG PANDOC_VERSION=2.19.2
 # https://github.com/sass/dart-sass-embedded/releases
 # renovate: datasource=github-releases depName=sass/dart-sass-embedded
-ARG DART_SASS_VERSION=1.62.0
+ARG DART_SASS_VERSION=1.62.1
 
 LABEL version="${HUGO_VERSION}"
 LABEL repository="https://github.com/jakejarvis/hugo-docker"
