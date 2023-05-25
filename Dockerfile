@@ -1,6 +1,6 @@
 # the following version can be overridden at image build time with --build-arg
 # renovate: datasource=github-releases depName=gohugoio/hugo
-ARG HUGO_VERSION=0.112.1
+ARG HUGO_VERSION=0.112.2
 
 # remove/comment the following line completely to compile vanilla Hugo:
 ARG HUGO_BUILD_TAGS=extended
