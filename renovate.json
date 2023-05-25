@@ -15,5 +15,13 @@
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
+  ],
+  "packageRules": [
+    {
+      "matchFiles": [
+        "^Dockerfile$"
+      ],
+      "extractVersion": "^v(?<version>.*)$"
+    }
   ]
 }
