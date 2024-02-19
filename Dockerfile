@@ -8,7 +8,7 @@ ARG HUGO_BUILD_TAGS=extended
 # ---
 
 # Hugo >= v0.81.0 requires Go 1.16+ to build
-FROM golang:1.21-alpine3.18 AS build
+FROM golang:1.22-alpine3.18 AS build
 
 # renew global args from above
 # https://docs.docker.com/engine/reference/builder/#scope
@@ -53,7 +53,7 @@ FROM alpine:3.18
 ARG HUGO_VERSION
 # https://github.com/jgm/pandoc/releases
 # renovate: datasource=github-releases depName=jgm/pandoc
-ARG PANDOC_VERSION=3.1.11
+ARG PANDOC_VERSION=3.1.12
 # https://github.com/sass/dart-sass-embedded/releases
 # renovate: datasource=github-releases depName=sass/dart-sass-embedded
 ARG DART_SASS_VERSION=1.62.1
