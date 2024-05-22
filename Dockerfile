@@ -47,7 +47,7 @@ RUN go install github.com/yaegashi/muslstack@latest && \
 
 # ---
 
-FROM alpine:3.18
+FROM alpine:3.20
 
 # renew global args from above & pin any dependency versions
 ARG HUGO_VERSION
